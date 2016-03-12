@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    div {
+      width: 100px;
+      height: 100px;
+      background-color: pink;
+    }
+  </style>
+</head>
+<body>
+    <div></div>
+    <div></div>
+    <script src="sharp.js"></script>
+    <script>
+        // document.querySelector("div").addEventListener("click", function() {
+        //   alert(11);
+        // })
+        $("div").eq(1).on("click",function() {
+          console.log(11);
+        });
+
+
+    </script>
+</body>
+
+</html>
