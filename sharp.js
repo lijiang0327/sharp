@@ -4,7 +4,7 @@
 * @Last Modified by:   lj
 * @Last Modified time: 2016-03-11 10:29:52
 */
-
+    
 'use strict';
 
 (function(w) {
@@ -232,4 +232,58 @@
 
     }
   })
+})($);
+// ajax模块
+(function($$) {
+  $$.extend($$, {
+    ajax: function(option) {
+      var url = option.url || location.pathname,
+          type = option.type || "get",
+          data = option.data || "",
+          success = option.success,
+          error = option.error;
+      function params(data) {
+        if($$.isObject(data)) {
+          var result = "";
+          for(var k in data) {
+            result += k + "=" + data[k] + "&";
+          }
+          result = result.slice(-1,1);
+          return result ;
+        }
+        return data;
+      }
+
+      data = params(data);
+
+      var xhr = new XMLHttpRequest();
+
+      if(type === "get") {
+        xhr.open(type, url + "?" + data);
+        data = null;
+      }
+      else if (type === "post") {
+        xhr.open(type, url);
+      }
+      
+
+      xhr.setRequestHeader("Conctent-Type", "application/x-www-form-urlencoded");
+
+      xhr.send(data);
+
+      xhr.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200) {
+
+          var ct = this.getResponseHeader("Content-Type");
+          if(ct.indexOf("json") != -1) {
+            var result = JSON.parse(this.responseText);
+            success(result);
+          }
+          else {
+            error("error");
+          }
+        }
+      }
+    }
+  });
 })($);
